@@ -9,7 +9,7 @@ info:
   license:
     name: Apache 2.0
     url: "http://www.apache.org/licenses/LICENSE-2.0.html"
-basePath: /v222
+basePath: /v2
 tags:
   - name: pet
     description: Everything about your Pets
@@ -39,24 +39,24 @@ paths:
         - application/xml
       produces:
         - application/xml
-        - application/json
+        - application/json2
       parameters:
         - in: body
           name: body
           description: Pet object that needs to be added to the store
-          required: false
+          required: true
           schema:
-            $ref: "#/definitions/Pet"
+            $ref: "#/definitions/Pet2"
       responses:
-        "204":
+        "402":
           description: Invalid input
       security:
         - petstore_auth:
-            - "write:pets"
+            - "yellow:pets"
             - "read:pets"
     put:
       tags:
-        - pet
+        - pet2
       summary: Update an existing pet
       description: ""
       operationId: updatePet
@@ -84,7 +84,7 @@ paths:
         - petstore_auth:
             - "write:pets"
             - "read:pets"
-  /pet/findByStatus:
+  /pet/findByStatus222:
     get:
       tags:
         - pet
@@ -106,11 +106,11 @@ paths:
           required: false
           type: array
           items:
-            type: string
+            type: boolean
           collectionFormat: multi
           default: available
           enum:
-            - available
+            - available2
             - pending
             - sold
       responses:
@@ -127,7 +127,7 @@ paths:
             - "write:pets"
             - "read:pets"
   /pet/findByTags:
-    get:
+    delete:
       tags:
         - pet
       summary: Finds Pets by tags
@@ -191,7 +191,7 @@ paths:
         - petstore_auth:
             - "write:pets"
             - "read:pets"
-      deprecated: false
+      deprecated: true
     post:
       tags:
         - pet

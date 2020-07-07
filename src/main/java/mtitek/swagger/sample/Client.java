@@ -11,12 +11,16 @@ import java.net.URL;
 public class Client extends Application {
     private final String CONST = "users";
     public void getEndpointTest1() throws MalformedURLException {
-        HttpUrl aseUrl1 = HttpUrl.get("https://api.JSON.com/v2/megaRequest1");
+        HttpUrl aseUrl1 = HttpUrl.get("http://localhost/swagger/myEntity2/login");
 
         System.out.println("sdf");
 
         new URL("");
 
+    }
+
+    public static void main(String[] args) {
+        System.out.println("");
     }
 
 

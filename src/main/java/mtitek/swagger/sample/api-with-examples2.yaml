@@ -6,7 +6,7 @@ info:
 
 
 paths:
-  /ndewnew:
+  /ndewnddew:
     get:
       operationId: listVersionsv2
       summary: List API versions

@@ -1,5 +1,6 @@
 {
   "openapi": "3.0.0",
+
   "x-internal-id": {
     "title": "API",
     "application/xml": "<users><user>Alice</user><user>Bob</user></users>"
@@ -199,7 +200,7 @@
         }
       }
     },
-    "/megaRequest1": {
+    "/megaRequest1w": {
       "patch": {
         "tags": [
           "pet"

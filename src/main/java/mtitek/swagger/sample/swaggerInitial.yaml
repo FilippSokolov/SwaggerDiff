@@ -1,28 +1,20 @@
-swagger: "2.0"
+swagger: '2.0'
 info:
-  description: "This is a sample server Petstore server.  You can find out more about Swagger at <a href=\"http://swagger.io\">http://swagger.io</a> or on irc.freenode.net, #swagger.  For this sample, you can use the api key \"special-key\" to test the authorization filters"
+  description: 'This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.'
   version: 1.0.0
-  title: Swagger Petstore YAML
-  termsOfService: "http://swagger.io/terms/"
-  contact:
-    email: "apiteam@swagger.io"
+  title: OpenAPI Petstore
   license:
-    name: Apache 2.0
-    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
-basePath: /v222
+    name: Apache-2.0
+    url: 'https://www.apache.org/licenses/LICENSE-2.0.html'
+host: petstore.swagger.io
+basePath: /v2
 tags:
   - name: pet
     description: Everything about your Pets
-    externalDocs:
-      description: Find out more
-      url: "http://swagger.io"
   - name: store
-    description: Operations about user
-  - name: user
     description: Access to Petstore orders
-    externalDocs:
-      description: Find out more about our store
-      url: "http://swagger.io"
+  - name: user
+    description: Operations about user
 schemes:
   - http
 paths:
@@ -31,8 +23,7 @@ paths:
       tags:
         - pet
       summary: Add a new pet to the store
-      x-swagger-router-controller: SampleController
-      description: ""
+      description: ''
       operationId: addPet
       consumes:
         - application/json
@@ -44,21 +35,21 @@ paths:
         - in: body
           name: body
           description: Pet object that needs to be added to the store
-          required: false
+          required: true
           schema:
-            $ref: "#/definitions/Pet"
+            $ref: '#/definitions/Pet'
       responses:
-        "204":
+        '405':
           description: Invalid input
       security:
         - petstore_auth:
-            - "write:pets"
-            - "read:pets"
+            - 'write:pets'
+            - 'read:pets'
     put:
       tags:
         - pet
       summary: Update an existing pet
-      description: ""
+      description: ''
       operationId: updatePet
       consumes:
         - application/json
@@ -70,20 +61,20 @@ paths:
         - in: body
           name: body
           description: Pet object that needs to be added to the store
-          required: false
+          required: true
           schema:
-            $ref: "#/definitions/Pet"
+            $ref: '#/definitions/Pet'
       responses:
-        "400":
+        '400':
           description: Invalid ID supplied
-        "404":
+        '404':
           description: Pet not found
-        "405":
+        '405':
           description: Validation exception
       security:
         - petstore_auth:
-            - "write:pets"
-            - "read:pets"
+            - 'write:pets'
+            - 'read:pets'
   /pet/findByStatus:
     get:
       tags:
@@ -91,11 +82,6 @@ paths:
       summary: Finds Pets by status
       description: Multiple status values can be provided with comma separated strings
       operationId: findPetsByStatus
-      consumes:
-        - application/xml
-        - application/json
-        - multipart/form-data
-        - application/x-www-form-urlencoded
       produces:
         - application/xml
         - application/json
@@ -103,35 +89,35 @@ paths:
         - name: status
           in: query
           description: Status values that need to be considered for filter
-          required: false
+          required: true
           type: array
           items:
             type: string
-          collectionFormat: multi
-          default: available
-          enum:
-            - available
-            - pending
-            - sold
+            enum:
+              - available
+              - pending
+              - sold
+            default: available
+          collectionFormat: csv
       responses:
-        "200":
+        '200':
           description: successful operation
           schema:
             type: array
             items:
-              $ref: "#/definitions/Pet"
-        "400":
+              $ref: '#/definitions/Pet'
+        '400':
           description: Invalid status value
       security:
         - petstore_auth:
-            - "write:pets"
-            - "read:pets"
+            - 'write:pets'
+            - 'read:pets'
   /pet/findByTags:
     get:
       tags:
         - pet
       summary: Finds Pets by tags
-      description: "Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing."
+      description: 'Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.'
       operationId: findPetsByTags
       produces:
         - application/xml
@@ -140,33 +126,32 @@ paths:
         - name: tags
           in: query
           description: Tags to filter by
-          required: false
+          required: true
           type: array
           items:
             type: string
-          collectionFormat: multi
+          collectionFormat: csv
       responses:
-        "200":
+        '200':
           description: successful operation
           schema:
             type: array
             items:
-              $ref: "#/definitions/Pet"
-        "400":
+              $ref: '#/definitions/Pet'
+        '400':
           description: Invalid tag value
       security:
         - petstore_auth:
-            - "write:pets"
-            - "read:pets"
-  "/pet/{petId}":
+            - 'write:pets'
+            - 'read:pets'
+      deprecated: true
+  '/pet/{petId}':
     get:
       tags:
         - pet
       summary: Find pet by ID
       description: Returns a single pet
       operationId: getPetById
-      consumes:
-        - application/x-www-form-urlencoded
       produces:
         - application/xml
         - application/json
@@ -178,25 +163,21 @@ paths:
           type: integer
           format: int64
       responses:
-        "200":
+        '200':
           description: successful operation
           schema:
-            $ref: "#/definitions/Pet"
-        "400":
+            $ref: '#/definitions/Pet'
+        '400':
           description: Invalid ID supplied
-        "404":
+        '404':
           description: Pet not found
       security:
         - api_key: []
-        - petstore_auth:
-            - "write:pets"
-            - "read:pets"
-      deprecated: false
     post:
       tags:
         - pet
       summary: Updates a pet in the store with form data
-      description: ""
+      description: ''
       operationId: updatePetWithForm
       consumes:
         - application/x-www-form-urlencoded
@@ -208,7 +189,8 @@ paths:
           in: path
           description: ID of pet that needs to be updated
           required: true
-          type: string
+          type: integer
+          format: int64
         - name: name
           in: formData
           description: Updated name of the pet
@@ -220,28 +202,24 @@ paths:
           required: false
           type: string
       responses:
-        "405":
+        '405':
           description: Invalid input
       security:
         - petstore_auth:
-            - "write:pets"
-            - "read:pets"
+            - 'write:pets'
+            - 'read:pets'
     delete:
       tags:
         - pet
       summary: Deletes a pet
-      description: ""
+      description: ''
       operationId: deletePet
-      consumes:
-        - multipart/form-data
-        - application/x-www-form-urlencoded
       produces:
         - application/xml
         - application/json
       parameters:
         - name: api_key
           in: header
-          description: ""
           required: false
           type: string
         - name: petId
@@ -251,19 +229,18 @@ paths:
           type: integer
           format: int64
       responses:
-        "400":
+        '400':
           description: Invalid pet value
       security:
         - petstore_auth:
-            - "write:pets"
-            - "read:pets"
-  "/pet/{petId}/uploadImage":
+            - 'write:pets'
+            - 'read:pets'
+  '/pet/{petId}/uploadImage':
     post:
       tags:
         - pet
       summary: uploads an image
-      x-swagger-router-controller: SampleController
-      description: ""
+      description: ''
       operationId: uploadFile
       consumes:
         - multipart/form-data
@@ -287,14 +264,14 @@ paths:
           required: false
           type: file
       responses:
-        "200":
+        '200':
           description: successful operation
           schema:
-            $ref: "#/definitions/ApiResponse"
+            $ref: '#/definitions/ApiResponse'
       security:
         - petstore_auth:
-            - "write:pets"
-            - "read:pets"
+            - 'write:pets'
+            - 'read:pets'
   /store/inventory:
     get:
       tags:
@@ -306,7 +283,7 @@ paths:
         - application/json
       parameters: []
       responses:
-        "200":
+        '200':
           description: successful operation
           schema:
             type: object
@@ -320,7 +297,7 @@ paths:
       tags:
         - store
       summary: Place an order for a pet
-      description: ""
+      description: ''
       operationId: placeOrder
       produces:
         - application/xml
@@ -329,22 +306,22 @@ paths:
         - in: body
           name: body
           description: order placed for purchasing the pet
-          required: false
+          required: true
           schema:
-            $ref: "#/definitions/Order"
+            $ref: '#/definitions/Order'
       responses:
-        "200":
+        '200':
           description: successful operation
           schema:
-            $ref: "#/definitions/Order"
-        "400":
+            $ref: '#/definitions/Order'
+        '400':
           description: Invalid Order
-  "/store/order/{orderId}":
+  '/store/order/{orderId}':
     get:
       tags:
         - store
       summary: Find purchase order by ID
-      description: "For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions"
+      description: 'For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions'
       operationId: getOrderById
       produces:
         - application/xml
@@ -354,15 +331,18 @@ paths:
           in: path
           description: ID of pet that needs to be fetched
           required: true
-          type: string
+          type: integer
+          maximum: 5
+          minimum: 1
+          format: int64
       responses:
-        "200":
+        '200':
           description: successful operation
           schema:
-            $ref: "#/definitions/Order"
-        "400":
+            $ref: '#/definitions/Order'
+        '400':
           description: Invalid ID supplied
-        "404":
+        '404':
           description: Order not found
     delete:
       tags:
@@ -380,9 +360,9 @@ paths:
           required: true
           type: string
       responses:
-        "400":
+        '400':
           description: Invalid ID supplied
-        "404":
+        '404':
           description: Order not found
   /user:
     post:
@@ -398,9 +378,9 @@ paths:
         - in: body
           name: body
           description: Created user object
-          required: false
+          required: true
           schema:
-            $ref: "#/definitions/User"
+            $ref: '#/definitions/User'
       responses:
         default:
           description: successful operation
@@ -409,7 +389,7 @@ paths:
       tags:
         - user
       summary: Creates list of users with given input array
-      description: ""
+      description: ''
       operationId: createUsersWithArrayInput
       produces:
         - application/xml
@@ -418,11 +398,11 @@ paths:
         - in: body
           name: body
           description: List of user object
-          required: false
+          required: true
           schema:
             type: array
             items:
-              $ref: "#/definitions/User"
+              $ref: '#/definitions/User'
       responses:
         default:
           description: successful operation
@@ -431,7 +411,7 @@ paths:
       tags:
         - user
       summary: Creates list of users with given input array
-      description: ""
+      description: ''
       operationId: createUsersWithListInput
       produces:
         - application/xml
@@ -440,11 +420,11 @@ paths:
         - in: body
           name: body
           description: List of user object
-          required: false
+          required: true
           schema:
             type: array
             items:
-              $ref: "#/definitions/User"
+              $ref: '#/definitions/User'
       responses:
         default:
           description: successful operation
@@ -453,7 +433,7 @@ paths:
       tags:
         - user
       summary: Logs user into the system
-      description: ""
+      description: ''
       operationId: loginUser
       produces:
         - application/xml
@@ -462,15 +442,15 @@ paths:
         - name: username
           in: query
           description: The user name for login
-          required: false
+          required: true
           type: string
         - name: password
           in: query
           description: The password for login in clear text
-          required: false
+          required: true
           type: string
       responses:
-        "200":
+        '200':
           description: successful operation
           schema:
             type: string
@@ -483,14 +463,14 @@ paths:
               type: string
               format: date-time
               description: date in UTC when toekn expires
-        "400":
+        '400':
           description: Invalid username/password supplied
   /user/logout:
     get:
       tags:
         - user
       summary: Logs out current logged in user session
-      description: ""
+      description: ''
       operationId: logoutUser
       produces:
         - application/xml
@@ -499,12 +479,12 @@ paths:
       responses:
         default:
           description: successful operation
-  "/user/{username}":
+  '/user/{username}':
     get:
       tags:
         - user
       summary: Get user by user name
-      description: ""
+      description: ''
       operationId: getUserByName
       produces:
         - application/xml
@@ -512,17 +492,17 @@ paths:
       parameters:
         - name: username
           in: path
-          description: "The name that needs to be fetched. Use user1 for testing. "
+          description: 'The name that needs to be fetched. Use user1 for testing.'
           required: true
           type: string
       responses:
-        "200":
+        '200':
           description: successful operation
           schema:
-            $ref: "#/definitions/User"
-        "400":
+            $ref: '#/definitions/User'
+        '400':
           description: Invalid username supplied
-        "404":
+        '404':
           description: User not found
     put:
       tags:
@@ -542,13 +522,13 @@ paths:
         - in: body
           name: body
           description: Updated user object
-          required: false
+          required: true
           schema:
-            $ref: "#/definitions/User"
+            $ref: '#/definitions/User'
       responses:
-        "400":
+        '400':
           description: Invalid user supplied
-        "404":
+        '404':
           description: User not found
     delete:
       tags:
@@ -566,24 +546,27 @@ paths:
           required: true
           type: string
       responses:
-        "400":
+        '400':
           description: Invalid username supplied
-        "404":
+        '404':
           description: User not found
 securityDefinitions:
   petstore_auth:
     type: oauth2
-    authorizationUrl: "http://petstore.swagger.io/api/oauth/dialog"
+    authorizationUrl: 'http://petstore.swagger.io/api/oauth/dialog'
     flow: implicit
     scopes:
-      "write:pets": modify pets in your account
-      "read:pets": read your pets
+      'write:pets': modify pets in your account
+      'read:pets': read your pets
   api_key:
     type: apiKey
     name: api_key
     in: header
 definitions:
   Order:
+    title: Pet Order
+    description: An order for a pets from the pet store
+    type: object
     properties:
       id:
         type: integer
@@ -606,9 +589,13 @@ definitions:
           - delivered
       complete:
         type: boolean
+        default: false
     xml:
       name: Order
   Category:
+    title: Pet category
+    description: A category for a pet
+    type: object
     properties:
       id:
         type: integer
@@ -618,6 +605,9 @@ definitions:
     xml:
       name: Category
   User:
+    title: a User
+    description: A User who is purchasing from the pet store
+    type: object
     properties:
       id:
         type: integer
@@ -641,6 +631,9 @@ definitions:
     xml:
       name: User
   Tag:
+    title: Pet Tag
+    description: A tag for a pet
+    type: object
     properties:
       id:
         type: integer
@@ -650,6 +643,9 @@ definitions:
     xml:
       name: Tag
   Pet:
+    title: a Pet
+    description: A pet for sale in the pet store
+    type: object
     required:
       - name
       - photoUrls
@@ -658,7 +654,7 @@ definitions:
         type: integer
         format: int64
       category:
-        $ref: "#/definitions/Category"
+        $ref: '#/definitions/Category'
       name:
         type: string
         example: doggie
@@ -675,7 +671,7 @@ definitions:
           name: tag
           wrapped: true
         items:
-          $ref: "#/definitions/Tag"
+          $ref: '#/definitions/Tag'
       status:
         type: string
         description: pet status in the store
@@ -686,6 +682,9 @@ definitions:
     xml:
       name: Pet
   ApiResponse:
+    title: An uploaded response
+    description: Describes the result of uploading an image resource
+    type: object
     properties:
       code:
         type: integer
@@ -694,8 +693,3 @@ definitions:
         type: string
       message:
         type: string
-    xml:
-      name: "##default"
-externalDocs:
-  description: Find out more about Swagger
-  url: "http://swagger.io"

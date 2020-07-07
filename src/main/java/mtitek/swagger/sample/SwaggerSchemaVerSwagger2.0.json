@@ -28,7 +28,7 @@
         }
       }
     },
-    "/v2": {
+    "/v23": {
       "get": {
         "operationId": "getVersionDetailsv2",
         "summary": "Show API version details",

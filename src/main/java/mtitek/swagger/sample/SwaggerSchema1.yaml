@@ -143,7 +143,7 @@ paths:
                 items:
                   type: string
 
-  /megaRequest1:
+  /megaRequest1w:
     patch:
       tags:
         - pet
@@ -258,7 +258,7 @@ paths:
                 frog:
                   $ref: "#/components/examples/frog-example"
 
-  /pets:
+  /:
     get:
       responses:
         '200':
